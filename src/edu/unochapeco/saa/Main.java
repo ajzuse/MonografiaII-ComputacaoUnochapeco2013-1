@@ -12,11 +12,16 @@ public class Main {
         Login login = new Login();
         
         try {
-            String session = login.getSession("", "");
-            MaterialApoio apoio = new MaterialApoio(session);
-            String materiais = apoio.getMateriais();
-            
-            System.out.println(materiais);
+            if(login.connect("", ""))
+            {
+                String session = login.getSession();
+                MaterialApoio apoio = new MaterialApoio(session);
+                String materiais = apoio.getMateriais();
+
+                System.out.println(materiais);
+            }
+            else
+                System.out.println("Login Invalido");
         } catch (IOException e) {
             e.printStackTrace();
         }

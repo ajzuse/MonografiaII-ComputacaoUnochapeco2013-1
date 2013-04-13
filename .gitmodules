@@ -1,3 +1,6 @@
 [submodule "src/org/json/JSON-java"]
 	path = src/org/json/JSON-java
 	url = git@github.com:douglascrockford/JSON-java.git
+[submodule "src/org/json"]
+	path = src/org/json
+	url = git@github.com:douglascrockford/JSON-java.git

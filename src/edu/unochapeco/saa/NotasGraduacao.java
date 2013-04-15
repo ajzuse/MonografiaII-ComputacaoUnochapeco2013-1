@@ -34,14 +34,14 @@ public class NotasGraduacao {
         for (Element disciplina : disciplinas) {
             JSONObject disciplinaObject = new JSONObject();
             disciplinaObject.put("nome", disciplina.text());
-            disciplinaObject.put("dados", parse(disciplina.attr("href")));
+            disciplinaObject.put("dados", parse(disciplina.attr("href"), disciplinas.indexOf(disciplina)));
 
             disciplinaArray.put(disciplinaObject);
         }
         return new JSONObject().put("disciplinas", disciplinaArray).toString();
     }
 
-    public JSONObject parse(String url) throws IOException {
+    public JSONObject parse(String url, int index) throws IOException {
         String base = "https://www.unochapeco.edu.br/saa/";
 
         Document document = Jsoup.connect(base + url)
@@ -57,8 +57,22 @@ public class NotasGraduacao {
              *  - aprovado
              *  - reprovado
              */
-            return new JSONObject()
-                    .put("estado", "fechada");
+            JSONObject avaliacaoObject = new JSONObject();
+            document = document = Jsoup.connect(base + "notas.php")
+                .cookie("PHPSESSID", session)
+                .timeout(8000)
+                .get();
+            
+            
+            Elements retorno = document.select("form[name=notas_graduacao] tr[bgcolor]");
+            Element elemento = retorno.get(index + 1);
+            avaliacaoObject.put("estado", elemento.select("td:eq(11)").text());
+            avaliacaoObject.put("G1", elemento.select("td:eq(6)").text());
+            avaliacaoObject.put("G2", elemento.select("td:eq(7)").text());
+            avaliacaoObject.put("G3", elemento.select("td:eq(8)").text());
+            avaliacaoObject.put("MF", elemento.select("td:eq(9)").text());
+
+            return avaliacaoObject;
         }
 
         Elements avaliacoes = document.select("form table:eq(0) tr:gt(4)");

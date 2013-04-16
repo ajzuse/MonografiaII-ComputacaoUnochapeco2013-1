@@ -66,7 +66,8 @@ public class NotasGraduacao {
             
             Elements retorno = document.select("form[name=notas_graduacao] tr[bgcolor]");
             Element elemento = retorno.get(index + 1);
-            avaliacaoObject.put("estado", elemento.select("td:eq(11)").text());
+            avaliacaoObject.put("estado", "fechada");
+            avaliacaoObject.put("status", elemento.select("td:eq(11)").text());
             avaliacaoObject.put("G1", elemento.select("td:eq(6)").text());
             avaliacaoObject.put("G2", elemento.select("td:eq(7)").text());
             avaliacaoObject.put("G3", elemento.select("td:eq(8)").text());

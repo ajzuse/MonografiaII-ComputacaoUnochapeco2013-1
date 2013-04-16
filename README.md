@@ -27,3 +27,11 @@ http://localhost:90?usuario=xxx&senha=yyy&info=[notas|horarios|materiais]
 ```
 
 Caso não seja informado o parametro info, todas as informações serão retornadas
+
+## Cliente REST
+
+*Para quem usa o Google Chrome, pode verificar os retornos do Servidor utilizando o Advanced Rest Client
+
+```
+https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo
+```

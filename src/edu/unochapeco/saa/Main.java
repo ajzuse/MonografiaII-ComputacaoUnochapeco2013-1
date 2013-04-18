@@ -35,29 +35,40 @@ public class Main {
                     NotasGraduacao notas = new NotasGraduacao(sessao);
                     MaterialApoio material = new MaterialApoio(sessao);
                     HorariosSemestre horarios = new HorariosSemestre(sessao);
-
+                                        
                     if(!loginValido)
                     {
+                        System.out.println("Login Invalido");
                         rest.write("Erro: Login Inválido");
+                        continue;
+                    }
+                    
+                    else if(info == null)
+                    {
+                        rest.write("Info: Login Válido");
                         continue;
                     }
                     else if(info.equalsIgnoreCase("notas"))
                     {
+                       System.out.println(usuario + ": Notas");
                        JSONnotas = notas.getNotas();
                        rest.write(JSONnotas + "\n");
                     }
                     else if (info.equalsIgnoreCase("materiais"))
                     {
+                        System.out.println(usuario + ": Materiais");
                         JSONmaterial = material.getMateriais();
                         rest.write(JSONmaterial + "\n");
                     }
                     else if(info.equalsIgnoreCase("horarios"))
                     {
+                        System.out.println(usuario + ": Horarios");
                         JSONhorarios = horarios.getHorarios();
                         rest.write(JSONhorarios + "\n");
                     }
                     else
                     {
+                        System.out.println("Opcao invalida");
                         rest.write("Opção Inválida");
                     }
                     

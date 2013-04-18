@@ -43,19 +43,16 @@ public class Main {
                     }
                     else if(info.equalsIgnoreCase("notas"))
                     {
-                       //Ajuste no tamanho para materiais: 14
                        JSONnotas = notas.getNotas();
                        rest.write(JSONnotas + "\n");
                     }
                     else if (info.equalsIgnoreCase("materiais"))
                     {
-                        //Ajuste no tamanho para materiais: 153
                         JSONmaterial = material.getMateriais();
                         rest.write(JSONmaterial + "\n");
                     }
                     else if(info.equalsIgnoreCase("horarios"))
                     {
-                        //Ajuste de tamanho para horarios: 181
                         JSONhorarios = horarios.getHorarios();
                         rest.write(JSONhorarios + "\n");
                     }

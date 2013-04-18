@@ -1,7 +1,8 @@
 package edu.unochapeco.saa;
 
-import IceBreakRestServer.IceBreakRestServer;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -12,10 +13,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-        IceBreakRestServer rest;   // Declare the HTTP server class
+        RestServer rest;   // Declare the HTTP server class
 
         try { 
-            rest  = new IceBreakRestServer();  
+            rest  = new RestServer();  
             rest.setPort(90);
 
             while (true) {
@@ -28,26 +29,42 @@ public class Main {
                 if(usuario != null || senha != null)
                 {
                     Login login = new Login();
-                    login.connect(usuario, senha);
+                    boolean loginValido = login.connect(usuario, senha);
                     String sessao = login.getSession();
-
+                    String JSONnotas, JSONmaterial, JSONhorarios;
                     NotasGraduacao notas = new NotasGraduacao(sessao);
                     MaterialApoio material = new MaterialApoio(sessao);
                     HorariosSemestre horarios = new HorariosSemestre(sessao);
 
-                    if(info == null || info.equalsIgnoreCase("notas")){
-                       rest.write(notas.getNotas() + "\n");
-                    }
-
-                    if (info == null || info.equalsIgnoreCase("materiais"))
+                    if(!loginValido)
                     {
-                        rest.write(material.getMateriais() + "\n");
+                        rest.write("Erro: Login Inválido");
+                        continue;
                     }
-
-                    if(info == null || info.equalsIgnoreCase("horarios"))
+                    else if(info.equalsIgnoreCase("notas"))
                     {
-                        rest.write(horarios.getHorarios() + "\n");
+                       //Ajuste no tamanho para materiais: 14
+                       JSONnotas = notas.getNotas();
+                       rest.write(JSONnotas + "\n");
                     }
+                    else if (info.equalsIgnoreCase("materiais"))
+                    {
+                        //Ajuste no tamanho para materiais: 153
+                        JSONmaterial = material.getMateriais();
+                        rest.write(JSONmaterial + "\n");
+                    }
+                    else if(info.equalsIgnoreCase("horarios"))
+                    {
+                        //Ajuste de tamanho para horarios: 181
+                        JSONhorarios = horarios.getHorarios();
+                        rest.write(JSONhorarios + "\n");
+                    }
+                    else
+                    {
+                        rest.write("Opção Inválida");
+                    }
+                    
+                    Thread.sleep(1);
                 }
                 else {
                     rest.write("Parâmetros Inválidos");
@@ -56,6 +73,8 @@ public class Main {
         }
         catch (IOException ex) {
             System.out.println(ex.getMessage());
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

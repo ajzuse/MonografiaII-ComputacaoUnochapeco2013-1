@@ -39,13 +39,13 @@ public class Main {
                     if(!loginValido)
                     {
                         System.out.println("Login Invalido");
-                        rest.write("Erro: Login Inválido");
+                        rest.write("0");
                         continue;
                     }
                     
                     else if(info == null)
                     {
-                        rest.write("Info: Login Válido");
+                        rest.write("1");
                         continue;
                     }
                     else if(info.equalsIgnoreCase("notas"))

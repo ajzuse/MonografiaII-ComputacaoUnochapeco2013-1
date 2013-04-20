@@ -11,6 +11,8 @@ import org.jsoup.select.Elements;
 /**
  *
  * @author Daniel Girotto
+ * 
+ * Adicionar retorno do perfil, para saber se o perfil foi implementado ou não.
  */
 public class HorariosSemestre {
 

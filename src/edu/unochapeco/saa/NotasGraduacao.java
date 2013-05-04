@@ -34,7 +34,8 @@ public class NotasGraduacao {
         for (Element disciplina : disciplinas) {
             JSONObject disciplinaObject = new JSONObject();
             disciplinaObject.put("nome", disciplina.text());
-            disciplinaObject.put("dados", parse(disciplina.attr("href"), disciplinas.indexOf(disciplina)));
+            disciplinaObject.put("dados", parse(disciplina.attr("href"),
+                    disciplinas.indexOf(disciplina)));
 
             disciplinaArray.put(disciplinaObject);
         }
@@ -50,21 +51,15 @@ public class NotasGraduacao {
                 .get();
 
         if (!document.select(":contains(Disciplina Fechada!)").isEmpty()) {
-            /*
-             * Caso a disciplina já esteja fechada os dados
-             * possíveis são nota G1, G2, Média Final, Faltas
-             * e status:
-             *  - aprovado
-             *  - reprovado
-             */
+
             JSONObject avaliacaoObject = new JSONObject();
-            document = document = Jsoup.connect(base + "notas.php")
-                .cookie("PHPSESSID", session)
-                .timeout(8000)
-                .get();
-            
-            
-            Elements retorno = document.select("form[name=notas_graduacao] tr[bgcolor]");
+            document = Jsoup.connect(base + "notas.php")
+                    .cookie("PHPSESSID", session)
+                    .timeout(8000)
+                    .get();
+
+            Elements retorno = document
+                    .select("form[name=notas_graduacao] tr[bgcolor]");
             Element elemento = retorno.get(index + 1);
             avaliacaoObject.put("estado", "fechada");
             avaliacaoObject.put("status", elemento.select("td:eq(11)").text());

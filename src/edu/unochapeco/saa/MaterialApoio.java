@@ -66,6 +66,22 @@ public class MaterialApoio {
 
             materialArray.put(materialObject);
         }
+
+        /*
+         * Link para fazer o download de todos os arquivos (.zip)
+         */
+        try {
+            Element todos = document.select("form tr a")
+                    .select(":contains(.zip)").last();
+
+            materialArray.put(new JSONObject()
+                    .put("nome", "Todos os arquivos")
+                    .put("url", base + todos.attr("href"))
+                    .put("publicacao", "")
+                    .put("descricao", todos.text()));
+        } catch (NullPointerException e) {
+            ;
+        }
         return materialArray;
     }
 }

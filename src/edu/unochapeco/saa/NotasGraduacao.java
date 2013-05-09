@@ -1,6 +1,8 @@
 package edu.unochapeco.saa;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -34,15 +36,14 @@ public class NotasGraduacao {
         for (Element disciplina : disciplinas) {
             JSONObject disciplinaObject = new JSONObject();
             disciplinaObject.put("nome", disciplina.text());
-            disciplinaObject.put("dados", parse(disciplina.attr("href"),
-                    disciplinas.indexOf(disciplina)));
+            disciplinaObject.put("dados", parse(disciplina.attr("href")));
 
             disciplinaArray.put(disciplinaObject);
         }
         return new JSONObject().put("disciplinas", disciplinaArray).toString();
     }
 
-    public JSONObject parse(String url, int index) throws IOException {
+    public JSONObject parse(String url) throws IOException {
         String base = "https://www.unochapeco.edu.br/saa/";
 
         Document document = Jsoup.connect(base + url)
@@ -58,9 +59,18 @@ public class NotasGraduacao {
                     .timeout(8000)
                     .get();
 
-            Elements retorno = document
-                    .select("form[name=notas_graduacao] tr[bgcolor]");
-            Element elemento = retorno.get(index + 1);
+            Pattern pattern = Pattern.compile("coddisc=[0-9]+&");
+            Matcher matcher = pattern.matcher(url);
+
+            String coddisc = null;
+            while (matcher.find()) {
+                coddisc = matcher.group().replaceAll("\\D", "");
+                break;
+            }
+
+            Element elemento = document.select("form[name$=graduacao] tr"
+                    + ":contains(" + coddisc + ")").first();
+
             avaliacaoObject.put("estado", "fechada");
             avaliacaoObject.put("status", elemento.select("td:eq(11)").text());
             avaliacaoObject.put("G1", elemento.select("td:eq(6)").text());

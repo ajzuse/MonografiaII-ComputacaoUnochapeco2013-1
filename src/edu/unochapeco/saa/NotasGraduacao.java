@@ -23,13 +23,19 @@ public class NotasGraduacao {
     }
 
     public String getNotas() throws IOException {
-        String url = "https://www.unochapeco.edu.br/saa/notas.php";
+        String url = "https://www.unochapeco.edu.br/saa/stats.php";
 
         Document document = Jsoup.connect(url)
                 .cookie("PHPSESSID", session)
+                .cookie("saa_perfil_atual", "3")
+                .data("op","add",
+                "nm_modulo","Notas Graduação",
+                "url_modulo","notas.php")
                 .timeout(8000)
                 .get();
 
+        System.out.println(document.toString());
+        
         Elements disciplinas = document.select("form table:eq(0) tr td:eq(1) a");
 
         JSONArray disciplinaArray = new JSONArray();

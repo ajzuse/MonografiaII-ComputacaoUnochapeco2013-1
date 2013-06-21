@@ -5,10 +5,6 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-/**
- *
- * @author Daniel Girotto
- */
 public class Login {
 
     private String session = null;

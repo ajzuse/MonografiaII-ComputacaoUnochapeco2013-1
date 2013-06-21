@@ -10,10 +10,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
-/**
- *
- * @author Daniel Girotto
- */
 public class NotasGraduacao {
 
     private String session = null;
@@ -34,8 +30,7 @@ public class NotasGraduacao {
                 .timeout(8000)
                 .get();
 
-        System.out.println(document.toString());
-        
+       
         Elements disciplinas = document.select("form table:eq(0) tr td:eq(1) a");
 
         JSONArray disciplinaArray = new JSONArray();

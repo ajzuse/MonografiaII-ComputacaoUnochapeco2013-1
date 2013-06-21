@@ -4,12 +4,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Daniel Girotto
- * IceBreak Rest Server
- * https://code.google.com/p/icebreakrest/wiki/IceBreak
- */
 public class Main {
 
     public static void main(String[] args) {
